@@ -19,7 +19,7 @@ public class Loan {
     }
 
     public boolean isOverdue(){
-    if (loandate.plusMonths(book.getMaxLoanInDays()))
+    if (loandate.plusMonths(book.getMaxLoanInDays() >= loandate))
         lostStatus = true;
     }
 

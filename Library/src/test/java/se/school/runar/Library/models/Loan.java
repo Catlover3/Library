@@ -29,7 +29,7 @@ public class Loan {
         loanId = 1;
         Book bookTest = new Book("Game of Thrones", true, false, 30, fine, "Fantasy with swords, shields and dragons");
         Customer customerTest = new Customer(customerRegistrationDate, "Olof", "olof.svensson@mail.se");
-        Loan loanTest = new Loan(bookTest, customerTest, loanDate, false);
+        //Loan loanTest = new Loan(bookTest, customerTest, loanDate, false);
 
     }
     @Test

@@ -19,7 +19,8 @@ public class Loan {
     }
 
     public boolean isOverdue(){
-
+    if (loandate.isAfter(03))
+        lostStatus = true;
     }
 
     public BigDecimal getFine(){

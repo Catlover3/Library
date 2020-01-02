@@ -11,7 +11,7 @@ public class Loan {
     private Customer customer;
     private LocalDate loanDate;
     private boolean lostStatus;
-    private int loanExtensionInDays;
+    private int loanExtensionInDays = 0;
 
     public Loan(Book book, Customer customer, LocalDate loanDate, boolean lostStatus) {
         this.book = book;
@@ -19,6 +19,7 @@ public class Loan {
         this.loanDate = loanDate;
         this.lostStatus = lostStatus;
     }
+
     public LocalDate getDueDate(){
         int actualLoanTimeInDays = book.getLoanTimeInDays() + loanExtensionInDays;
         return loanDate.plusDays(actualLoanTimeInDays);
@@ -66,10 +67,6 @@ public class Loan {
         return loanId;
     }
 
-    public void setLoanId(long loanId) {
-        this.loanId = loanId;
-    }
-
     public Book getBook() {
         return book;
     }
@@ -88,6 +85,10 @@ public class Loan {
 
     public LocalDate getLoandate() {
         return loanDate;
+    }
+
+    public void setLoanDate(LocalDate loanDate) {
+        this.loanDate = loanDate;
     }
 
     public boolean isLostStatus() {

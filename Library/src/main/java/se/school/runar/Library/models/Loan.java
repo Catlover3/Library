@@ -9,23 +9,24 @@ public class Loan {
     private long loanId;
     private Book book;
     private Customer customer;
-    private LocalDate loandate;
+    private LocalDate loanDate;
     private boolean lostStatus;
+    private int loanExtensionInDays;
 
-    public Loan(Book book, Customer customer, LocalDate loandate, boolean lostStatus) {
+    public Loan(Book book, Customer customer, LocalDate loanDate, boolean lostStatus) {
         this.book = book;
         this.customer = customer;
-        this.loandate = loandate;
+        this.loanDate = loanDate;
         this.lostStatus = lostStatus;
     }
     public LocalDate getDueDate(){
-        LocalDate dueDate = loandate.plusDays(book.getLoanTimeInDays());
-        return dueDate;
+        int actualLoanTimeInDays = book.getLoanTimeInDays() + loanExtensionInDays;
+        return loanDate.plusDays(actualLoanTimeInDays);
     }
 
     public boolean isOverdue(){
         LocalDate todaysDate = LocalDate.now();
-        if ((todaysDate.isAfter(loandate.plusDays(book.getLoanTimeInDays())) )){
+        if ((todaysDate.isAfter(getDueDate()) )){
 
             lostStatus = true;
             return true;
@@ -34,15 +35,15 @@ public class Loan {
     }
 
     public BigDecimal getFine(){
-        if(isOverdue() == true){
-            long daysPassed = ChronoUnit.DAYS.between(loandate, getDueDate());
-            BigDecimal fine = new BigDecimal("10");
-            BigDecimal days = BigDecimal.valueOf(daysPassed);
-            BigDecimal sumOfFine = fine.multiply(days);
+        if(isOverdue()){
+            long daysPassed = ChronoUnit.DAYS.between(loanDate, getDueDate());
+            BigDecimal fine = book.getFinePerDay();
+            BigDecimal sumOfFine = fine.multiply(BigDecimal.valueOf(daysPassed));
 
             BigDecimal maxFine = new BigDecimal(1000);
             if (sumOfFine.compareTo(maxFine) == 1){// 1 beyder att summan är större än jämförelsevärdet inom parentesen
                 sumOfFine.valueOf(1000);
+                return  sumOfFine;
             }
             return  sumOfFine;
 
@@ -53,7 +54,12 @@ public class Loan {
     }
 
     public boolean extendLoan(int days){
-
+        if(loanExtensionInDays >= 0){
+            loanExtensionInDays += days;
+            return true;
+        }
+        loanExtensionInDays += days;
+        return  false;
     }
 
     public long getLoanId() {
@@ -64,12 +70,12 @@ public class Loan {
         this.loanId = loanId;
     }
 
-    public Book getBorrower() {
-        return borrower;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBorrower(Book borrower) {
-        this.borrower = borrower;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public Customer getCustomer() {
@@ -81,7 +87,7 @@ public class Loan {
     }
 
     public LocalDate getLoandate() {
-        return loandate;
+        return loanDate;
     }
 
     public boolean isLostStatus() {
@@ -99,23 +105,23 @@ public class Loan {
         Loan loan = (Loan) o;
         return loanId == loan.loanId &&
                 lostStatus == loan.lostStatus &&
-                Objects.equals(borrower, loan.borrower) &&
+                Objects.equals(book, loan.book) &&
                 Objects.equals(customer, loan.customer) &&
-                Objects.equals(loandate, loan.loandate);
+                Objects.equals(loanDate, loan.loanDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanId, borrower, customer, loandate, lostStatus);
+        return Objects.hash(loanId, book, customer, loanDate, lostStatus);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Loan{");
         sb.append("loanId=").append(loanId);
-        sb.append(", borrower=").append(borrower);
+        sb.append(", book=").append(book);
         sb.append(", customer=").append(customer);
-        sb.append(", loandate=").append(loandate);
+        sb.append(", loandate=").append(loanDate);
         sb.append(", lostStatus=").append(lostStatus);
         sb.append('}');
         return sb.toString();

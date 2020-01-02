@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Loan {
     private long loanId;
-    private Book borrower;
+    private Book book;
     private Customer customer;
     private LocalDate loandate;
     private boolean lostStatus;
@@ -19,7 +19,7 @@ public class Loan {
     }
 
     public boolean isOverdue(){
-    if (loandate.isAfter(03))
+    if (loandate.plusMonths(book.getMaxLoanInDays()))
         lostStatus = true;
     }
 

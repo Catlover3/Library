@@ -18,10 +18,14 @@ public class Loan {
         this.loandate = loandate;
         this.lostStatus = lostStatus;
     }
+    public LocalDate getDueDate(){
+        LocalDate dueDate = loandate.plusDays(book.getLoanTimeInDays());
+        return dueDate;
+    }
 
     public boolean isOverdue(){
         LocalDate todaysDate = LocalDate.now();
-        if ((todaysDate.isAfter(loandate.plusDays(book.getMaxLoanInDays())) )){
+        if ((todaysDate.isAfter(loandate.plusDays(book.getLoanTimeInDays())) )){
 
             lostStatus = true;
             return true;
@@ -31,12 +35,17 @@ public class Loan {
 
     public BigDecimal getFine(){
         if(isOverdue() == true){
-            LocalDate today = LocalDate.now();
-            LocalDate dueDate = today.plusDays(book.getMaxLoanInDays());
-            System.out.println(today);
-            System.out.println(thirtyDaysLater);
-            long daysPassed = ChronoUnit.DAYS.between(today, thirtyDaysLater);
-            System.out.println(daysPassed);
+            long daysPassed = ChronoUnit.DAYS.between(loandate, getDueDate());
+            BigDecimal fine = new BigDecimal("10");
+            BigDecimal days = BigDecimal.valueOf(daysPassed);
+            BigDecimal sumOfFine = fine.multiply(days);
+
+            BigDecimal maxFine = new BigDecimal(1000);
+            if (sumOfFine.compareTo(maxFine) == 1){// 1 beyder att summan är större än jämförelsevärdet inom parentesen
+                sumOfFine.valueOf(1000);
+            }
+            return  sumOfFine;
+
         }
         else{
             throw new IllegalArgumentException("the book is not overdue");

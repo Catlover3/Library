@@ -8,15 +8,15 @@ public class Book {
     private String title;
     private boolean available;
     private boolean reserved;
-    private int maxLoanInDays;
+    private int loanTimeInDays;
     private BigDecimal finePerDay;
     private String description;
 
-    public Book(String title, boolean available, boolean reserved, int maxLoanInDays, BigDecimal finePerDay, String description) {
+    public Book(String title, boolean available, boolean reserved, int loanTimeInDays, BigDecimal finePerDay, String description) {
         this.title = title;
         this.available = available;
         this.reserved = reserved;
-        this.maxLoanInDays = maxLoanInDays;
+        this.loanTimeInDays = loanTimeInDays;
         this.finePerDay = finePerDay;
         this.description = description;
     }
@@ -49,12 +49,12 @@ public class Book {
         this.reserved = reserved;
     }
 
-    public int getMaxLoanInDays() {
-        return maxLoanInDays;
+    public int getLoanTimeInDays() {
+        return loanTimeInDays;
     }
 
-    public void setMaxLoanInDays(int maxLoanInDays) {
-        this.maxLoanInDays = maxLoanInDays;
+    public void setLoanTimeInDays(int loanTimeInDays) {
+        this.loanTimeInDays = loanTimeInDays;
     }
 
     public BigDecimal getFinePerDay() {
@@ -81,7 +81,7 @@ public class Book {
         return bookId == book.bookId &&
                 available == book.available &&
                 reserved == book.reserved &&
-                maxLoanInDays == book.maxLoanInDays &&
+                loanTimeInDays == book.loanTimeInDays &&
                 Objects.equals(title, book.title) &&
                 Objects.equals(finePerDay, book.finePerDay) &&
                 Objects.equals(description, book.description);
@@ -89,7 +89,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, title, available, reserved, maxLoanInDays, finePerDay, description);
+        return Objects.hash(bookId, title, available, reserved, loanTimeInDays, finePerDay, description);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Book {
         sb.append(", title='").append(title).append('\'');
         sb.append(", available=").append(available);
         sb.append(", reserved=").append(reserved);
-        sb.append(", maxLoanInDays=").append(maxLoanInDays);
+        sb.append(", maxLoanInDays=").append(loanTimeInDays);
         sb.append(", finePerDay=").append(finePerDay);
         sb.append(", description='").append(description).append('\'');
         sb.append('}');

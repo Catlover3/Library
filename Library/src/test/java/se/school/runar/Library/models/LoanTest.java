@@ -43,7 +43,7 @@ public class LoanTest {
 
 
         bookTest = new Book("Game of Thrones", true, false, 7, ten, "Fantasy with swords, shields and dragons");
-        customerTest = new Customer(customerRegistrationDate, "Olof", "olof.svensson@mail.se");
+        customerTest = new Customer(firstJan2018, "Olof", "olof.svensson@mail.se");
         loanTest = new Loan(bookTest, customerTest, twentyNineDec2019, false);
         loanTestTodaysDate = new Loan(bookTest, customerTest, todaysDate, false);
         loanTestLoanDateExceeded = new Loan(bookTest, customerTest, firstNov2019, false);
@@ -126,21 +126,40 @@ public class LoanTest {
 
     @Test
     void setLoandate_DateTime(){
-        //LocalDate ofToday = LocalDate.of(2020,8,26);
         LocalDate today = LocalDate.now();
+
+        assertNotEquals(today, loanTest.getLoandate());
         loanTest.setLoanDate(today);
         assertEquals(today, loanTest.getLoandate() );
     }
 
-//    @Test
-//    void test_LocalDate(){
-//        LocalDate today = LocalDate.now();
-//        LocalDate ofToday = LocalDate.of(2020,01,03);
-//        LocalDate parseToday = LocalDate.parse("2020-01-03");
-//        assertEquals(today, ofToday);
-//        assertEquals(today, parseToday);
-//        assertEquals(ofToday, parseToday);
-//    }
+    @Test
+    public void copyOf_testObject_equals_is_true(){
+        Loan copy = new Loan(bookTest, customerTest, todaysDate, false);
+        assertTrue(copy.equals(loanTestTodaysDate));
+        assertEquals(copy.hashCode(), loanTestTodaysDate.hashCode());
+    }
+
+    @Test
+    public void hashcode_works(){
+        Loan copy = new Loan(bookTest, customerTest, todaysDate, false);
+        assertEquals(copy.hashCode(), loanTestTodaysDate.hashCode());
+    }
+
+    @Test
+    public void toString_contains_correct_information() {
+        String toString = loanTest.toString();
+        assertTrue(
+                toString.contains("Game of Thrones") &&
+                        toString.contains("7") &&
+                        toString.contains("10") &&
+                        toString.contains("Fantasy with swords, shields and dragons") &&
+                        toString.contains("2018-01-01")&&
+                        toString.contains("Olof") &&
+                        toString.contains("olof.svensson@mail.se") &&
+                        toString.contains("2019-12-29")
+        );
+    }
 
 
 }//End of class

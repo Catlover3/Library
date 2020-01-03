@@ -1,8 +1,11 @@
 package se.school.runar.Library.models;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Component
 public class Customer {
     private int userID;
     private LocalDate regDate;
@@ -14,6 +17,10 @@ public class Customer {
         this.regDate = regDate;
         this.name = name;
         this.email = email;
+    }
+
+    public Customer() {
+
     }
 
     public int getUserID() {

@@ -1,8 +1,11 @@
 package se.school.runar.Library.models;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Component
 public class Book {
     private int bookId;
     private String title;
@@ -19,6 +22,10 @@ public class Book {
         this.loanTimeInDays = loanTimeInDays;
         this.finePerDay = finePerDay;
         this.description = description;
+    }
+
+    public Book() {
+
     }
 
     public int getBookId() {

@@ -1,4 +1,4 @@
 package se.school.runar.Library.models;
 
-public class Book {
+public class BookTest {
 }//End of class

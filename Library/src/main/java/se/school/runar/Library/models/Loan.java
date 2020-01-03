@@ -3,16 +3,31 @@ package se.school.runar.Library.models;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-@Component
+
+@Entity
 public class Loan {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long loanId;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.MERGE})
     private Book book;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.MERGE})
     private Customer customer;
+
     private LocalDate loanDate;
     private boolean lostStatus = false;
     private int loanExtensionInDays = 0;
@@ -28,15 +43,15 @@ public class Loan {
 
     }
 
-    public LocalDate getDueDate(){
+    public LocalDate getDueDate() {
         int actualLoanTimeInDays = book.getLoanTimeInDays() + loanExtensionInDays;
         LocalDate calculatedDueDate = loanDate;
         return calculatedDueDate.plusDays(actualLoanTimeInDays);
     }
 
-    public boolean isOverdue(){
+    public boolean isOverdue() {
         LocalDate todaysDate = LocalDate.now();
-        if ((todaysDate.isAfter(getDueDate()) )){
+        if ((todaysDate.isAfter(getDueDate()))) {
 
             setLostStatus(true);
             return true;
@@ -44,22 +59,21 @@ public class Loan {
         return false;
     }
 
-    public BigDecimal getFine(){
+    public BigDecimal getFine() {
         BigDecimal sumOfFine = new BigDecimal("-1");
 
-        if(isOverdue()){
+        if (isOverdue()) {
             LocalDate todaysDate = LocalDate.now();
             long daysPassed = ChronoUnit.DAYS.between(getDueDate(), todaysDate);
             BigDecimal fine = book.getFinePerDay();
             sumOfFine = fine.multiply(BigDecimal.valueOf(daysPassed));
 
             BigDecimal maxFine = new BigDecimal(1000);
-                if (sumOfFine.compareTo(maxFine) == 1){// 1 beyder att summan är större än jämförelsevärdet inom parentesen
-                    BigDecimal sumOfFine2 = sumOfFine.valueOf(1000);
-                    return  sumOfFine2;
-                }
-        }
-        else{
+            if (sumOfFine.compareTo(maxFine) == 1) {// 1 beyder att summan är större än jämförelsevärdet inom parentesen
+                BigDecimal sumOfFine2 = sumOfFine.valueOf(1000);
+                return sumOfFine2;
+            }
+        } else {
             BigDecimal sumOfFine2 = sumOfFine.valueOf(1);
 
             try {
@@ -72,13 +86,13 @@ public class Loan {
         return sumOfFine;
     }
 
-    public boolean extendLoan(int days){
-        if(loanExtensionInDays > 0){
+    public boolean extendLoan(int days) {
+        if (loanExtensionInDays > 0) {
             loanExtensionInDays += days;
             return false;
         }
         loanExtensionInDays += days;
-        return  true;
+        return true;
     }
 
     public long getLoanId() {

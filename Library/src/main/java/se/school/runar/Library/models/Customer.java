@@ -2,14 +2,19 @@ package se.school.runar.Library.models;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Component
+@Entity
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
     private LocalDate regDate;
     private String name;
+
+    @Column(unique = true)
     private String email;
 
 

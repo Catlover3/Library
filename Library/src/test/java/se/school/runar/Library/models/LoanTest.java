@@ -136,7 +136,7 @@ public class LoanTest {
     @Test
     public void copyOf_testObject_equals_is_true(){
         Loan copy = new Loan(bookTest, customerTest, todaysDate, false);
-        assertTrue(copy.equals(loanTestTodaysDate));
+        assertEquals(copy, loanTestTodaysDate);
         assertEquals(copy.hashCode(), loanTestTodaysDate.hashCode());
     }
 

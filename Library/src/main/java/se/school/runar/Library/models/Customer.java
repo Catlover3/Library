@@ -1,7 +1,5 @@
 package se.school.runar.Library.models;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -10,7 +8,7 @@ import java.util.Objects;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+    private int customerId;
     private LocalDate regDate;
     private String name;
 
@@ -28,8 +26,8 @@ public class Customer {
 
     }
 
-    public int getUserID() {
-        return userID;
+    public int getCustomerId() {
+        return customerId;
     }
 
 
@@ -59,7 +57,7 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return userID == customer.userID &&
+        return customerId == customer.customerId &&
                 Objects.equals(regDate, customer.regDate) &&
                 Objects.equals(name, customer.name) &&
                 Objects.equals(email, customer.email);
@@ -67,13 +65,13 @@ public class Customer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, regDate, name, email);
+        return Objects.hash(customerId, regDate, name, email);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Customer{");
-        sb.append("userID=").append(userID);
+        sb.append("customerId=").append(customerId);
         sb.append(", regDate=").append(regDate);
         sb.append(", name='").append(name).append('\'');
         sb.append(", email='").append(email).append('\'');

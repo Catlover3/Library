@@ -1,8 +1,5 @@
 package se.school.runar.Library.models;
 
-import org.apache.tomcat.jni.Local;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,27 +1,21 @@
 package se.school.runar.Library.models;
 
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoanTest {
-    @Autowired
+
     private Book bookTest;
-    @Autowired
     private Customer customerTest;
-    @Autowired
     private Loan loanTest;
-    @Autowired
     private Loan loanTestLoanDateExceeded;
-    @Autowired
     private Loan loanTestTodaysDate;
-    @Autowired
     private Loan loanTestTwoYearsAgo;
 
     LocalDate todaysDate = LocalDate.now();
@@ -49,6 +43,7 @@ public class LoanTest {
         loanTestLoanDateExceeded = new Loan(bookTest, customerTest, firstNov2019, false);
         loanTestTwoYearsAgo = new Loan(bookTest, customerTest, firstJan2018, false);
     }
+
     @Test
     void getDueDate(){
         LocalDate testedValue = loanTestTodaysDate.getDueDate();
@@ -85,8 +80,8 @@ public class LoanTest {
 
     @Test
     void loan_is_not_Overdue(){
-        assertFalse(loanTest.getLostStatus());
-        assertFalse(loanTest.isOverdue());
+        assertFalse(loanTestTodaysDate.getLostStatus());
+        assertFalse(loanTestTodaysDate.isOverdue());
     }
 
     @Test
@@ -106,8 +101,10 @@ public class LoanTest {
     }
 
     @Test
-    void getFine(){
-        BigDecimal expectedFine = new BigDecimal(560);
+    void getFine(){//This test will stop working once the value goes over 1000 which will happen around 02-20
+        long daysPassed = ChronoUnit.DAYS.between(loanTestLoanDateExceeded.getDueDate(), todaysDate);
+        long fine = daysPassed*10;
+        BigDecimal expectedFine = new BigDecimal(fine);
         assertEquals(expectedFine, loanTestLoanDateExceeded.getFine());
     }
 

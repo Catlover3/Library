@@ -1,6 +1,7 @@
 package se.school.runar.Library.models;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +15,11 @@ public class CustomerTest {
     private boolean lostStatus;
     private int loanExtensionInDays;
 
+
+    @Test
+    void dfgsfdg() {
+
+    }
 
     @BeforeEach
     void setup(){
@@ -29,6 +35,7 @@ public class CustomerTest {
 //        this.customerTest = customerTest;
 //        this.loanDate = loanDate;
 //        this.lostStatus = lostStatus;
+
 
     }
 }//End of class
